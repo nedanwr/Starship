@@ -1,0 +1,19 @@
+{
+  "name": "@starship/app",
+  "version": "0.0.1",
+  "private": true,
+  "description": "A discord bot made with scalability in mind",
+  "repository": "git+https://github.com/nedanwr/Starship.git",
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "discordjs",
+    "prisma",
+    "postgresql"
+  ],
+  "author": "Naveed Ali Anwar <hello@naveedalianwar.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/nedanwr/Starship/issues"
+  }
+}
