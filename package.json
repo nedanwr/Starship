@@ -7,6 +7,9 @@
     "apps/*",
     "packages/*"
   ],
+  "scripts": {
+    "format": "prettier --config .prettierrc --write \"**/*.{ts,tsx}\""
+  },
   "repository": "git+https://github.com/nedanwr/Starship.git",
   "keywords": [
     "nodejs",
