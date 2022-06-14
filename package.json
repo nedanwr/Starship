@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "description": "A discord bot made with scalability in mind",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "repository": "git+https://github.com/nedanwr/Starship.git",
   "keywords": [
     "nodejs",
