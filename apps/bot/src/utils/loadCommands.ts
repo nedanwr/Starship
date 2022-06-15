@@ -16,7 +16,7 @@ export const loadCommands = (client:Starship) => {
            if (command.default.trigger) {
                 client.commands.set(command.default.trigger, command.default);
            }
-           logger.info(`${file.split(".").shift()} command loaded`);
+           logger.info(`[${dir}] ${file.split(".").shift()} command loaded`);
        }
     });
 }
