@@ -8,6 +8,8 @@
     "dotenv": "^16.0.1"
   },
   "devDependencies": {
+    "@types/node": "^17.0.43",
+    "cross-env": "^7.0.3",
     "nodemon": "^2.0.16",
     "typecript": "^0.0.1-security"
   }
