@@ -1,4 +1,5 @@
 import {
+    Client,
     DiscordAPIError,
     MessageEmbedOptions
 } from "discord.js";
@@ -28,3 +29,31 @@ export const isDiscordAPIError = (err: Error | string): err is DiscordAPIError =
 
 export type EmbedWith<T extends keyof MessageEmbedOptions> = MessageEmbedOptions &
     Pick<Required<MessageEmbedOptions>, T>;
+
+export const resolveUserId = (bot: Client, value: string) => {
+    if (value === null) {
+        return null;
+    }
+
+    // If value is a user ID, return it
+    if (isValidSnowflake(value)) {
+        return value;
+    }
+
+    // If value is a user mention, return the user ID
+    const mentionMatch = value.match(/^<@!?(\d+)>$/);
+    if (mentionMatch) {
+        return mentionMatch[1];
+    }
+
+    // If value is a full username, return the user ID
+    const usernameMatch = value.match(/^@?([^#]+)#(\d{4})$/);
+    if (usernameMatch) {
+        const user = bot.users.cache.find((u) => u.username === usernameMatch[1] && u.discriminator === usernameMatch[2]);
+        if (user) {
+            return user.id;
+        }
+    }
+
+    return null;
+};
