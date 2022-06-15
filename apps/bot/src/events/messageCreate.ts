@@ -10,7 +10,7 @@ module.exports = async (client:Starship, message:Message) => {
     if (!command) return;
 
     try {
-        command.run(message, args);
+        command.run(client, message, args);
     }
     catch (err: any | unknown) {
         logger.error(`Error executing command ${command.name}`, err.message);
