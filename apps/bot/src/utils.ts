@@ -1,7 +1,10 @@
 import {
     Client,
     DiscordAPIError,
-    MessageEmbedOptions
+    Guild,
+    GuildMember,
+    MessageEmbedOptions,
+    Snowflake
 } from "discord.js";
 
 // https://discord.com/developers/docs/reference#snowflakes
@@ -30,6 +33,8 @@ export const isDiscordAPIError = (err: Error | string): err is DiscordAPIError =
 export type EmbedWith<T extends keyof MessageEmbedOptions> = MessageEmbedOptions &
     Pick<Required<MessageEmbedOptions>, T>;
 
+const unknownMembers = new Set();
+
 export const resolveUserId = (bot: Client, value: string) => {
     if (value === null) {
         return null;
@@ -57,3 +62,41 @@ export const resolveUserId = (bot: Client, value: string) => {
 
     return null;
 };
+
+/**
+ * Resolves a guild member from passed user id.
+ * If the member is not found in cache, it's fetched from the API.
+ */
+export const resolveMember = async (
+    bot: Client,
+    guild: Guild,
+    value: string,
+    fresh: boolean = false
+): Promise<GuildMember | null> => {
+    const userId: string | null = resolveUserId(bot, value);
+    if (!userId) return null;
+
+    // If the member is in the cache, return it
+    if (guild.members.cache.has(userId as Snowflake) && !fresh) {
+        return guild.members.cache.get(userId as Snowflake) || null;
+    }
+
+    // Cache user as unknown instead of making multiple unknown user requests
+    const unknownKey: string = `${guild.id}-${userId}`;
+    if (unknownMembers.has(unknownKey)) {
+        return null;
+    }
+
+    const freshMember: GuildMember = await guild.members.fetch({
+        user: userId as Snowflake,
+        force: true
+    });
+    if (freshMember) {
+        return freshMember;
+    }
+
+    unknownMembers.add(unknownKey);
+    setTimeout(() => unknownMembers.delete(unknownKey), 15 * 1000);
+
+    return null;
+}
