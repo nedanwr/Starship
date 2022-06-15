@@ -6,3 +6,6 @@ node_modules
 
 # .env File
 .env
+
+# Next.js
+.next
