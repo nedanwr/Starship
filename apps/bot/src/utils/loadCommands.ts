@@ -8,9 +8,9 @@ const ENV_MODE_FILE_EXT: string = process.env.NODE_ENV === "production" ? ".js" 
 
 export const loadCommands = (client:Starship) => {
     // Read categories
-    readdirSync(join(__dirname, "commands")).forEach(dir => {
+    readdirSync(join(__dirname, "../commands")).forEach(dir => {
        // Read commands from categories
-       const commandFiles = readdirSync(join(__dirname, "commands", dir)).filter(file => file.endsWith(ENV_MODE_FILE_EXT));
+       const commandFiles = readdirSync(join(__dirname, "../commands", dir)).filter(file => file.endsWith(ENV_MODE_FILE_EXT));
        for (const file of commandFiles) {
            const command = require(`../commands/${dir}/${file}`);
            if (command.default.trigger) {

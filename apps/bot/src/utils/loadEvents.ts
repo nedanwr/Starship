@@ -7,7 +7,7 @@ import { logger } from "../logger";
 const ENV_MODE_FILE_EXT: string = process.env.NODE_ENV === "production" ? ".js" : ".ts";
 
 export const loadEvents = (client:Starship) => {
-    const eventFiles = readdirSync(join(__dirname, "events")).filter(file => file.endsWith(ENV_MODE_FILE_EXT));
+    const eventFiles = readdirSync(join(__dirname, "../events")).filter(file => file.endsWith(ENV_MODE_FILE_EXT));
     for (const file of eventFiles) {
         const event = require(`../events/${file}`);
         const eventName: string | undefined = file.split(".").shift();
