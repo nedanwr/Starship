@@ -21,6 +21,7 @@
     "cross-env": "^7.0.3",
     "nodemon": "^2.0.16",
     "rimraf": "^3.0.2",
+    "tsconfig-paths": "^4.0.0",
     "typecript": "^0.0.1-security"
   }
 }
