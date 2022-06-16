@@ -84,6 +84,16 @@ export const sendErrorMessage = (
         })
 }
 
+export const isOwner = (userId: string) => {
+    const owner = process.env.OWNER_ID;
+
+    if (!owner) {
+        return;
+    }
+
+    return owner.includes(userId);
+}
+
 const unknownMembers = new Set();
 
 export const resolveUserId = (bot: Client, value: string) => {
