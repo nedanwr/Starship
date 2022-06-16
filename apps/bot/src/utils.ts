@@ -4,7 +4,7 @@ import {
     Guild,
     GuildMember,
     MessageEmbedOptions,
-    Snowflake
+    Snowflake,
 } from "discord.js";
 
 // https://discord.com/developers/docs/reference#snowflakes
@@ -32,6 +32,14 @@ export const isDiscordAPIError = (err: Error | string): err is DiscordAPIError =
 
 export type EmbedWith<T extends keyof MessageEmbedOptions> = MessageEmbedOptions &
     Pick<Required<MessageEmbedOptions>, T>;
+
+export const successMessage = (str: string, emoji: string = "✔️") => {
+    return emoji ? `${emoji} ${str}` : str;
+}
+
+export const errorMessage = (str: string, emoji: string = "⚠") => {
+    return emoji ? `${emoji} ${str}` : str;
+}
 
 const unknownMembers = new Set();
 
