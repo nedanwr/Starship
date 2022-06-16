@@ -13,6 +13,10 @@ export default {
     aliases: ["allow_server", "allowserver", "add_server"],
 
     async run(client: Client, msg: Message, args: string[]) {
+        if (msg.author.id !== process.env.OWNER_ID) {
+            return sendErrorMessage(msg.channel as TextChannel, "You are not the owner of this bot");
+        }
+
         const exists = await prisma.allowedGuilds.findFirst({
             where: {
                 id: parseInt(args[0]),
