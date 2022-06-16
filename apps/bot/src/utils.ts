@@ -3,9 +3,14 @@ import {
     DiscordAPIError,
     Guild,
     GuildMember,
+    Message,
     MessageEmbedOptions,
+    MessageMentionOptions,
+    MessageOptions,
     Snowflake,
+    TextChannel,
 } from "discord.js";
+import { logger } from "./logger";
 
 // https://discord.com/developers/docs/reference#snowflakes
 export const MIN_SNOWFLAKE: 135169 = 0b000000000000000000000000000000000000000000_00001_00001_000000000001;
@@ -39,6 +44,25 @@ export const successMessage = (str: string, emoji: string = "✔️") => {
 
 export const errorMessage = (str: string, emoji: string = "⚠") => {
     return emoji ? `${emoji} ${str}` : str;
+}
+
+export const sendSuccessMessage = (
+    channel: TextChannel,
+    body: string,
+    allowedMentions?: MessageMentionOptions,
+): Promise<Message | undefined> => {
+    const formattedBody: string = successMessage(body);
+    const content: MessageOptions = allowedMentions
+        ? { content: formattedBody, allowedMentions }
+        : { content: formattedBody };
+
+    return channel
+        .send({ ...content })
+        .catch((err: any | unknown) => {
+            const channelInfo = channel.guild ? `${channel.id} (${channel.guild.id})` : channel.id;
+            logger.warn(`Failed to send message to channel ${channelInfo}: ${err.code} ${err.message}`);
+            return undefined;
+        })
 }
 
 const unknownMembers = new Set();
