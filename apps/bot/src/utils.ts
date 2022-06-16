@@ -65,6 +65,25 @@ export const sendSuccessMessage = (
         })
 }
 
+export const sendErrorMessage = (
+    channel: TextChannel,
+    body: string,
+    allowedMentions?: MessageMentionOptions,
+): Promise<Message | undefined> => {
+    const formattedBody: string = errorMessage(body);
+    const content: MessageOptions = allowedMentions
+        ? { content: formattedBody, allowedMentions }
+        : { content: formattedBody };
+
+    return channel
+        .send({ ...content })
+        .catch((err: any | unknown) => {
+            const channelInfo = channel.guild ? `${channel.id} (${channel.guild.id})` : channel.id;
+            logger.warn(`Failed to send message to channel ${channelInfo}: ${err.code} ${err.message}`);
+            return undefined;
+        })
+}
+
 const unknownMembers = new Set();
 
 export const resolveUserId = (bot: Client, value: string) => {
