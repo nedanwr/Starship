@@ -10,7 +10,7 @@ import { sendErrorMessage, sendSuccessMessage } from "../../utils";
 export default {
     trigger: "addserver",
     description: "Add a server to the list of allowed servers",
-    aliases: ["allow_server", "allow_server", "add_server"],
+    aliases: ["allow_server", "allowserver", "add_server"],
 
     async run(client: Client, msg: Message, args: string[]) {
         const exists = await prisma.allowedGuilds.findFirst({
