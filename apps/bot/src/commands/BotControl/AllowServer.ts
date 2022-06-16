@@ -34,7 +34,10 @@ export default {
                     icon: guild.iconURL(),
                     owner_id: parseInt(guild.ownerId),
                 }
-            });
+            })
+                .finally(() => {
+                    prisma.$disconnect();
+                });
 
             await sendSuccessMessage(msg.channel as TextChannel, "Server allowed to use Starship");
         });
