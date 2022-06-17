@@ -106,6 +106,19 @@ export const isOwner = (userId: string) => {
     return owner.includes(userId);
 };
 
+export class UnknownUser {
+    public id: string = "000000000000000000";
+    public username: string = "Unknown";
+    public discriminator: string = "0000";
+    public tag: string = "Unknown#0000";
+
+    constructor(props: {} = {}) {
+        for (const key in props) {
+            this[key] = props[key];
+        }
+    }
+}
+
 const unknownMembers = new Set();
 
 export const resolveUserId = (bot: Client, value: string) => {
