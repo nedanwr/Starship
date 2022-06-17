@@ -1,7 +1,3 @@
-import type { NextPage } from "next";
+import { LandingPage } from "@modules/landing-page/LandingPage";
 
-const Home: NextPage = (): JSX.Element => {
-    return <h1>Hello World</h1>;
-};
-
-export default Home;
+export default LandingPage;
