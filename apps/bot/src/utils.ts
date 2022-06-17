@@ -50,6 +50,12 @@ export const isDiscordAPIError = (
     return err instanceof DiscordAPIError;
 };
 
+export const sleep = (ms: number): Promise<void> => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+
 export type EmbedWith<T extends keyof MessageEmbedOptions> =
     MessageEmbedOptions & Pick<Required<MessageEmbedOptions>, T>;
 
