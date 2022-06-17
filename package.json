@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "format": "prettier --config .prettierrc --write \"**/*.{ts,tsx}\""
+    "format": "prettier --config .prettierrc --write \"**/*.{ts,tsx}\" && yarn prisma format"
   },
   "repository": "git+https://github.com/nedanwr/Starship.git",
   "keywords": [
