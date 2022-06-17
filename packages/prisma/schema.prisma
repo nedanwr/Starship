@@ -10,6 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Config {
+  id        BigInt @id @unique
+  config    Json
+  edited_at Int
+
+  @@map(name: "configs")
+}
+
 model AllowedGuilds {
   id       BigInt  @id @unique
   name     String
