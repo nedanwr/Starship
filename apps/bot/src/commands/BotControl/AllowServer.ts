@@ -5,7 +5,11 @@ import {
     TextChannel
 } from "discord.js";
 import { prisma } from "@prisma";
-import { sendErrorMessage, sendSuccessMessage } from "../../utils";
+import {
+    isOwner,
+    sendErrorMessage,
+    sendSuccessMessage
+} from "../../utils";
 
 export default {
     trigger: "addserver",
@@ -13,7 +17,7 @@ export default {
     aliases: ["allow_server", "allowserver", "add_server"],
 
     async run(client: Client, msg: Message, args: string[]) {
-        if (msg.author.id !== process.env.OWNER_ID) {
+        if (!isOwner(msg.author.id)) {
             return sendErrorMessage(msg.channel as TextChannel, "You are not the owner of this bot");
         }
 
