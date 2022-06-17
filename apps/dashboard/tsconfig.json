@@ -2,6 +2,10 @@
   "compilerOptions": {
     "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": ".",
+    "paths": {
+      "@modules/*": ["modules/*"],
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
