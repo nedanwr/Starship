@@ -46,6 +46,8 @@ export const isDiscordAPIError = (
 export type EmbedWith<T extends keyof MessageEmbedOptions> =
     MessageEmbedOptions & Pick<Required<MessageEmbedOptions>, T>;
 
+export type Not<T, E> = T & Exclude<T, E>;
+
 export const successMessage = (str: string, emoji: string = "✔️") => {
     return emoji ? `${emoji} ${str}` : str;
 };
@@ -119,6 +121,7 @@ export class UnknownUser {
     }
 }
 
+const unknownUsers = new Set();
 const unknownMembers = new Set();
 
 export const resolveUserId = (bot: Client, value: string) => {
@@ -152,6 +155,39 @@ export const resolveUserId = (bot: Client, value: string) => {
 
     return null;
 };
+
+export async function resolveUser(bot: Client, value: string) : Promise<User | UnknownUser>;
+export async function resolveUser<T>(bot: Client, value: Not<T, string>): Promise<UnknownUser>;
+// @ts-ignore
+export async function resolveUser<T>(bot, value) {
+    if (typeof value !== "string") {
+        return new UnknownUser();
+    }
+
+    const userId: string | null = resolveUserId(bot, value);
+    if (!userId) {
+        return new UnknownUser();
+    }
+
+    // If user is cached, return it
+    if (bot.users.cache.has(userId)) {
+        return bot.users.fetch(userId);
+    }
+
+    if (unknownUsers.has(userId)) {
+        return new UnknownUser({ id: userId });
+    }
+
+    const freshUser = await bot.users.fetch(userId, true, true);
+    if (freshUser) {
+        return freshUser;
+    }
+
+    unknownUsers.add(userId);
+    setTimeout(() => unknownUsers.delete(userId), 1000 * 60 * 60);
+
+    return new UnknownUser({ id: userId });
+}
 
 /**
  * Resolves a guild member from passed user id.
