@@ -11,10 +11,10 @@ datasource db {
 }
 
 model AllowedGuilds {
-    id       BigInt @id @unique
-    name     String
-    icon     String?
-    owner_id BigInt
+  id       BigInt  @id @unique
+  name     String
+  icon     String?
+  owner_id BigInt
 
-    @@map(name: "allowed_guilds")
+  @@map(name: "allowed_guilds")
 }
