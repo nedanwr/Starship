@@ -13,6 +13,13 @@ import {
 } from "discord.js";
 import { logger } from "./logger";
 
+export const MS: number = 1;
+export const SECONDS: number = 1000 * MS;
+export const MINUTES: number = 60 * SECONDS;
+export const HOURS: number = 60 * MINUTES;
+export const DAYS: number = 24 * HOURS;
+export const WEEKS: number = 7 * 24 * HOURS;
+
 // https://discord.com/developers/docs/reference#snowflakes
 export const MIN_SNOWFLAKE: 135169 = 0b000000000000000000000000000000000000000000_00001_00001_000000000001;
 // 0b111111111111111111111111111111111111111111_11111_11111_111111111111 without _ which BigInt doesn't support
