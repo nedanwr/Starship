@@ -2,9 +2,9 @@ import { Client, Collection, Intents } from "discord.js";
 import { logger } from "../logger";
 
 type ClientOptions = {
-    token: string,
-    prefix: string,
-}
+    token: string;
+    prefix: string;
+};
 
 export class Starship extends Client {
     public prefix: string;
@@ -13,13 +13,19 @@ export class Starship extends Client {
 
     public constructor(options: ClientOptions) {
         super({
-            partials: ["USER", "MESSAGE", "CHANNEL", "GUILD_MEMBER", "REACTION"],
+            partials: [
+                "USER",
+                "MESSAGE",
+                "CHANNEL",
+                "GUILD_MEMBER",
+                "REACTION"
+            ],
             // Disable mentions by default
             allowedMentions: {
                 parse: [],
                 users: [],
                 roles: [],
-                repliedUser: false,
+                repliedUser: false
             },
             // Intents
             intents: [
@@ -35,15 +41,14 @@ export class Starship extends Client {
                 Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
                 Intents.FLAGS.GUILD_MESSAGES,
                 Intents.FLAGS.GUILDS,
-                Intents.FLAGS.GUILD_VOICE_STATES,
-            ],
+                Intents.FLAGS.GUILD_VOICE_STATES
+            ]
         });
         this.prefix = options.prefix;
         this.commands = new Collection();
-        this.login(options.token)
-            .catch((err: any | unknown) => {
-                logger.error(err.message);
-                process.exit(1);
-            });
+        this.login(options.token).catch((err: any | unknown) => {
+            logger.error(err.message);
+            process.exit(1);
+        });
     }
 }

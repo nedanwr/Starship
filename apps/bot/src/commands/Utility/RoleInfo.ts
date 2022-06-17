@@ -11,4 +11,4 @@ export default {
         const embed = await getRoleInfoEmbed(role);
         message.channel.send({ embeds: [embed] });
     }
-}
+};

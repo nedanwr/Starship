@@ -14,10 +14,9 @@ module.exports = async (client: Starship) => {
                     name: "The Stars!",
                     type: "WATCHING"
                 }
-            ],
-        })
-    }
-    catch (err: any | unknown) {
+            ]
+        });
+    } catch (err: any | unknown) {
         logger.error(`Failed to set startup presence: ${err.message}`);
     }
-}
+};

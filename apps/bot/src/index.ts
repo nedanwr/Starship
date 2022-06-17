@@ -4,9 +4,9 @@ import { loadEvents } from "./utils/loadEvents";
 import { loadCommands } from "./utils/loadCommands";
 import { startUptimeCounter } from "./uptime";
 
-const client:Starship = new Starship({
+const client: Starship = new Starship({
     token: process.env.TOKEN!,
-    prefix: process.env.PREFIX!,
+    prefix: process.env.PREFIX!
 });
 
 // Load Events

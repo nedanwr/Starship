@@ -1,14 +1,6 @@
-import {
-    Client,
-    Message,
-    TextChannel
-} from "discord.js";
+import { Client, Message, TextChannel } from "discord.js";
 import { prisma } from "@prisma";
-import {
-    isOwner,
-    sendErrorMessage,
-    sendSuccessMessage
-} from "../../utils";
+import { isOwner, sendErrorMessage, sendSuccessMessage } from "../../utils";
 
 export default {
     trigger: "removeserver",
@@ -17,27 +9,37 @@ export default {
 
     async run(client: Client, msg: Message, args: string[]) {
         if (!isOwner(msg.author.id)) {
-            return sendErrorMessage(msg.channel as TextChannel, "You are not the owner of this bot");
+            return sendErrorMessage(
+                msg.channel as TextChannel,
+                "You are not the owner of this bot"
+            );
         }
 
         const exists = await prisma.allowedGuilds.findFirst({
             where: {
-                id: parseInt(args[0]),
+                id: parseInt(args[0])
             }
         });
         if (!exists) {
-            return sendErrorMessage(msg.channel as TextChannel, "The server is not allowed in the first place!");
+            return sendErrorMessage(
+                msg.channel as TextChannel,
+                "The server is not allowed in the first place!"
+            );
         }
 
-        await prisma.allowedGuilds.delete({
-            where: {
-                id: parseInt(args[0]),
-            }
-        })
+        await prisma.allowedGuilds
+            .delete({
+                where: {
+                    id: parseInt(args[0])
+                }
+            })
             .finally(() => {
                 prisma.$disconnect();
             });
         await client.guilds.cache.get(args[0])?.leave();
-        await sendSuccessMessage(msg.channel as TextChannel, "Server removed from the list of allowed servers!");
+        await sendSuccessMessage(
+            msg.channel as TextChannel,
+            "Server removed from the list of allowed servers!"
+        );
     }
-}
+};
